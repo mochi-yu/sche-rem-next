@@ -1,10 +1,10 @@
-import { Typography, Container, Stack } from "@mui/material"
+import { Typography, Container, Stack, TextField, Button } from "@mui/material"
 
 export default function EmailPage({params} : {params: {groupID: string}}) {
   const sampleData = {
     "groupID": "abcde",
-    "groupName": "abcdefg",
-    "author": "string",
+    "groupName": "次回ミーティング",
+    "author": "諏訪 太郎",
     "groupUsers": [
       "sample@example.com",
       "sample@example.com",
@@ -28,14 +28,17 @@ export default function EmailPage({params} : {params: {groupID: string}}) {
   return (
     <>
       <Container sx={{my: "30px"}} maxWidth={false}>
-        <Container sx={{my: "20px", bgcolor: "white", py: "20px", px: "30px"}} maxWidth={false}>
-          <Stack direction="row"  alignItems="center">
+        <Container sx={{my: "20px", bgcolor: "white", py: "20px", px: "20px"}} maxWidth={false}>
+          <Stack direction="row" alignItems="center">
             <Typography children={sampleData["groupName"]} variant="h3" sx={{mr: "50px"}} />
             <Typography variant="h6">作成者：{sampleData["author"]}</Typography>
           </Stack>
 
-          <Typography variant="body1">メールアドレスを入力してください。</Typography>
-
+          <Typography variant="body1" sx={{py: "30px"}}>メールアドレスを入力してください。</Typography>
+          <Container sx={{alignItems: "center"}}>
+            <TextField id="outlined-basic" label="sample@example.com" variant="outlined"/><br></br>
+            <Button variant="contained" sx={{bgcolor: "#783200", mt: "20px"}}>次へ</Button>
+          </Container>
         </Container>
       </Container>
     </>

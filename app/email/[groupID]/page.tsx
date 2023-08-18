@@ -1,4 +1,5 @@
-import { Typography, Container, Stack, TextField, Button } from "@mui/material"
+import { Typography, Container, Stack} from "@mui/material"
+import { InputEmailForm } from "./input_email_form";
 
 export default function EmailPage({params} : {params: {groupID: string}}) {
   const sampleData = {
@@ -40,12 +41,7 @@ export default function EmailPage({params} : {params: {groupID: string}}) {
             メールアドレスを入力してください。
           </Typography>
 
-          <Stack alignItems="center">
-            <TextField id="outlined-basic" label="sample@example.com" variant="outlined"/>
-            <Button variant="contained" sx={{bgcolor: "#783200", mt: "20px"}}>
-              次へ
-            </Button>
-          </Stack>
+          <InputEmailForm />
         </Container>
       </Container>
     </>

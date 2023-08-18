@@ -19,6 +19,7 @@
     "@types/react-dom": "18.2.7",
     "@viselect/react": "^3.0.0",
     "autoprefixer": "10.4.14",
+    "dayjs": "^1.11.9",
     "next": "13.4.13",
     "normalize.css": "^8.0.1",
     "postcss": "8.4.27",

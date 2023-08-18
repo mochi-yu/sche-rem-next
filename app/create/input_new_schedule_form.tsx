@@ -5,6 +5,13 @@ import { Stack, Typography, TextField, Button } from "@mui/material"
 import AddIcon from '@mui/icons-material/Add';
 import { useState } from "react"
 
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { jaJP } from "@mui/x-date-pickers";
+
+import { Dayjs } from "dayjs";
+
 export function InputNewScheduleFrom() {
   const [groupName, setGroupName] = useState("");
   const [author, setAuthor] = useState("");
@@ -69,7 +76,32 @@ export function InputNewScheduleFrom() {
           <Typography sx={{mr: "20px", fontSize: "20px"}}>
             期間：
           </Typography>
+          <LocalizationProvider
+            dateAdapter={AdapterDayjs}
+            dateFormats={{ monthAndYear: 'YYYY年 MM月' }}
+            localeText={{
+              previousMonth: '前月を表示',
+              nextMonth: '次月を表示',
+            }}
+          >
+            <DatePicker
+              label="開始日"
+              format="YYYY/MM/DD"
+              onChange={(value: Dayjs | null) => {
+                if(value == null) return;
+                console.log(value.format())
+              }}
+            />
+          <Typography sx={{mx: "20px", fontSize: "20px"}}>
+            ～
+          </Typography>
+            <DatePicker
+                label="終了日"
+                format="YYYY/MM/DD"
+              />
+          </LocalizationProvider>
         </Stack>
+        
         <Stack direction="row" alignItems="center" sx={{my: "20px"}}>
           <Typography sx={{mr: "20px", fontSize: "20px"}}>
             時間：

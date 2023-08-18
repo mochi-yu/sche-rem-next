@@ -1,0 +1,28 @@
+.container {
+  padding: 0.5rem;
+  display: grid;
+  grid-gap: 0.5rem;
+  grid-template-columns: repeat(20, 1fr);
+  flex-wrap: wrap;
+  width: 90vmin;
+  height: auto;
+  background: #dbe9ff;
+  border-radius: 0.5rem;
+  user-select: none;
+}
+
+.container > div {
+  width: 40px;
+  height: 5px;
+  background: #aaccff;
+  border-radius: 0.25rem;
+}
+
+.container > div.selected {
+  background: #5f9efc;
+}
+
+.selection-area {
+  background: #4f90f22d;
+  border: 1px solid #4f90f2;
+}

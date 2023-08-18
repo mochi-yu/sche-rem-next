@@ -2,7 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import 'normalize.css'
-import { ScheRemHeader } from './ScheRemHeader'
+import { ScheRemHeader } from '../components/ScheRemHeader'
 
 const inter = Inter({ subsets: ['latin'] })
 

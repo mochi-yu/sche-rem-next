@@ -4,7 +4,7 @@ interface GroupInfo {
   author: string,
   groupUsers: string[],
   schedules: ScheduleInfo[],
-  startDay: string,
+  startDate: string,
   endDate: string,
   startHour: number,
   endHour: number

@@ -4,23 +4,31 @@ import SelectionArea, { SelectionEvent, Behaviour } from "@viselect/react";
 import { ReactNode, useState } from "react";
 import "./calender_style.css";
 import { Box, Container, Stack, Typography, } from "@mui/material";
+import { ScheRemButtonPrimary } from "./sche_rem_button_primary";
+import axios from "../utils/axios";
+import { useRouter } from "next/navigation";
 
 interface Props {
   info: GroupInfo,
+  pathParam: {
+    groupID: string,
+    mailAddress: string
+  }
 }
 
 export function CalenderInput(props: Props) {
+  const router = useRouter();
   const [selected, setSelected] = useState<Set<number>>(() => new Set());
 
   // 行数と列数
   const targetHourCount = props.info.endHour - props.info.startHour;
-  const targetDayCount = ((new Date(props.info.endDate)).getTime() - (new Date(props.info.startDay)).getTime()) / 86400000;
-  console.log(targetDayCount);
-  console.log(targetHourCount);
+  const targetDayCount = ((new Date(parseInt(props.info.endDate) * 1000)).getTime() - (new Date(parseInt(props.info.startDate) * 1000)).getTime()) / 86400000;
+  // console.log(targetDayCount);
+  // console.log(targetHourCount);
 
   // 日付けのラベル
   var dateLabels: ReactNode[] = [];
-  var calenderDate = new Date(props.info.startDay);
+  var calenderDate = new Date(parseInt(props.info.startDate) * 1000);
   for(var i = 0; i < targetDayCount; i++) {
     dateLabels.push(
       <Container sx={{width: "1fr", textAlign: "center"}} disableGutters>
@@ -102,6 +110,42 @@ export function CalenderInput(props: Props) {
           ))}
         </SelectionArea>
       </Stack>
+
+      <Box height="20px" />
+      <ScheRemButtonPrimary
+        clickHandler={
+          async () => {
+            // 1次元配列でスケジュールを保持
+            var scheduleArray: boolean[] = new Array(targetDayCount * (targetHourCount*4)).fill(false);
+            selected.forEach(elm => {
+              scheduleArray[elm] = true;
+            })
+            
+            var schedule2D: boolean[][] = new Array(targetDayCount);
+            for(var i = 0; i < targetDayCount; i++) {
+              schedule2D[i] = new Array();
+            }
+
+            scheduleArray.forEach((elm, i) => {
+              schedule2D[i % targetDayCount].push(elm);
+            })
+
+            const requestParam = {
+              userMailAddress: props.pathParam.mailAddress,
+              userName: "",
+              scheduleInfo: schedule2D,
+            }
+
+            const response = await axios.post("/group/"+props.pathParam.groupID, requestParam)
+
+            router.push("/check/" + props.pathParam.groupID)
+
+          }
+        }
+      >
+        決定
+      </ScheRemButtonPrimary>
+
     </Stack>
   );
 }

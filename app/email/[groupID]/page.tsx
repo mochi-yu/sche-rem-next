@@ -1,39 +1,18 @@
 import { Typography, Container, Stack} from "@mui/material"
 import { InputEmailForm } from "./input_email_form";
+import axios from "../../../utils/axios"
 
-export default function EmailPage({params} : {params: {groupID: string}}) {
-  const sampleData = {
-    "groupID": "abcde",
-    "groupName": "次回ミーティング",
-    "author": "諏訪 太郎",
-    "groupUsers": [
-      "sample@example.com",
-      "sample@example.com",
-    ],
-    "schedules": [
-      {
-        "userMailAddress": "string",
-        "scheduleInfo": [
-          [ true, true ],
-          [ true, true ],
-          [ true, true ],
-        ]
-      }
-    ],
-    "startDay": "string",
-    "endDat": "string",
-    "startHour": "string",
-    "endHour": "string"
-  };
+export default async function EmailPage({params} : {params: {groupID: string}}) {
+  const data = (await axios.get("/group/"+params.groupID)).data;
 
   return (
     <>
       <Container sx={{my: "30px"}} maxWidth={false}>
         <Container sx={{my: "20px", bgcolor: "white", py: "20px", px: "20px"}} maxWidth={false}>
           <Stack direction="row" alignItems="center">
-            <Typography children={sampleData["groupName"]} variant="h3" sx={{mr: "50px"}} />
+            <Typography children={data.groupName} variant="h3" sx={{mr: "50px"}} />
             <Typography variant="h6">
-              作成者：{sampleData["author"]}
+              作成者：{data["author"]}
             </Typography>
           </Stack>
 
@@ -41,7 +20,7 @@ export default function EmailPage({params} : {params: {groupID: string}}) {
             メールアドレスを入力してください。
           </Typography>
 
-          <InputEmailForm />
+          <InputEmailForm groupID={params.groupID} />
         </Container>
       </Container>
     </>

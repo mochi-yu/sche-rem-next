@@ -4,11 +4,14 @@ import { ScheRemButtonPrimary } from "@/components/sche_rem_button_primary"
 import { Stack, Typography, TextField, Button } from "@mui/material"
 import AddIcon from '@mui/icons-material/Add';
 import { useState } from "react"
+import { useRouter } from "next/navigation";
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { jaJP } from "@mui/x-date-pickers";
+import { TimePicker } from "@mui/x-date-pickers";
+
+import axios from '../../utils/axios'
 
 import { Dayjs } from "dayjs";
 
@@ -18,8 +21,10 @@ export function InputNewScheduleFrom() {
   const [groupUsers, setGroupUsers] = useState<String[]>([""]);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [startHour, setStartHour] = useState("");
-  const [endHour, setEndHour] = useState("");
+  const [startHour, setStartHour] = useState(0);
+  const [endHour, setEndHour] = useState(0);
+
+  const router = useRouter();
 
   const userForms = groupUsers.map((elm, index) => {
     return (
@@ -34,7 +39,6 @@ export function InputNewScheduleFrom() {
         onChange={(e) => {
           var newUsers = [...groupUsers];
           newUsers[Number(e.target.id)] = e.target.value;
-          console.log(newUsers);
           setGroupUsers(newUsers);
         }}
       />
@@ -89,7 +93,7 @@ export function InputNewScheduleFrom() {
               format="YYYY/MM/DD"
               onChange={(value: Dayjs | null) => {
                 if(value == null) return;
-                console.log(value.format())
+                setStartDate(String(value.unix()))
               }}
             />
           <Typography sx={{mx: "20px", fontSize: "20px"}}>
@@ -98,14 +102,40 @@ export function InputNewScheduleFrom() {
             <DatePicker
                 label="終了日"
                 format="YYYY/MM/DD"
-              />
+                onChange={(value: Dayjs | null) => {
+                  if(value == null) return;
+                  setEndDate(String(value.unix()))
+                }}
+                />
           </LocalizationProvider>
         </Stack>
         
         <Stack direction="row" alignItems="center" sx={{my: "20px"}}>
-          <Typography sx={{mr: "20px", fontSize: "20px"}}>
-            時間：
-          </Typography>
+          <Typography sx={{mr: "20px", fontSize: "20px"}} children="時間：" />
+          <LocalizationProvider dateAdapter={AdapterDayjs} >
+            <TimePicker
+              sx={{width: "150px"}}
+              ampm={false}
+              views={["hours"]}
+              label="開始時間"
+              onChange={(value: Dayjs | null) => {
+                if(value == null) return;
+                setStartHour(value.hour());
+              }}
+            />
+            <Typography sx={{mx: "20px", fontSize: "20px"}} children="時 〜 " />
+            <TimePicker
+              sx={{width: "150px"}}
+              ampm={false}
+              views={["hours"]}
+              label="終了時間"
+              onChange={(value: Dayjs | null) => {
+                if(value == null) return;
+                setEndHour(value.hour())
+              }}
+            />
+            <Typography sx={{mx: "20px", fontSize: "20px"}} children="時" />
+          </LocalizationProvider>
         </Stack>
 
         <Stack direction="row" sx={{my: "20px"}}>
@@ -128,7 +158,27 @@ export function InputNewScheduleFrom() {
 
       </Stack>
 
-      <ScheRemButtonPrimary clickHandler={() => console.log("create new event.")}>
+      <ScheRemButtonPrimary
+        clickHandler={
+          async () => {
+            const requestBody = {
+              groupName: groupName,
+              author: author,
+              groupUsers: groupUsers,
+              startDate: startDate,
+              endDate: endDate,
+              startHour: startHour,
+              endHour: endHour,
+            }
+
+            const response = await axios.post("/group", requestBody)
+            console.log(response);
+
+            router.push("/email/" + response.data.groupID)
+
+          }
+        }
+      >
         作成
       </ScheRemButtonPrimary>
     </Stack>

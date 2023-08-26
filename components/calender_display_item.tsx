@@ -7,9 +7,9 @@ import "./calender_style.css"
 export function CalenderDisplayItem(props: {users: string[]}) {
   const [showDialog, setShowDialog] = useState(false);
 
-  const usersList = props.users.map(elm => {
+  const usersList = props.users.length != 0 ? props.users.map(elm => {
     return <Typography>・{elm}</Typography>
-  })
+  }) : <Typography>だれも参加できません。</Typography>
 
   return (
     <>

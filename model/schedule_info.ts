@@ -1,4 +1,4 @@
 interface ScheduleInfo {
-  userMailAddress: string,
+  userMailAdress: string,
   scheduleInfo: boolean[][],
 }

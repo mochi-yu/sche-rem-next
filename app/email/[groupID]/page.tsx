@@ -1,6 +1,6 @@
 import { Typography, Container, Stack} from "@mui/material"
 import { InputEmailForm } from "./input_email_form";
-import axios from "../../../utils/axios"
+import axios from "./../../../utils/axios"
 
 export default async function EmailPage({params} : {params: {groupID: string}}) {
   const data = (await axios.get("/group/"+params.groupID)).data;

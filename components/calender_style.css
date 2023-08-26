@@ -15,7 +15,12 @@
   background: #ffdbc9;
 }
 
-.container > div.selected {
+div.selectable {
+  height: 5px;
+  background: #ffdbc9;
+}
+
+div.selected {
   background: #ffa071;
 }
 

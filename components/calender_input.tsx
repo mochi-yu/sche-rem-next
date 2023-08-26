@@ -121,6 +121,7 @@ export function CalenderInput(props: Props) {
               scheduleArray[elm] = true;
             })
             
+            // 行を日付とする二次元の配列に持ち直す。
             var schedule2D: boolean[][] = new Array(targetDayCount);
             for(var i = 0; i < targetDayCount; i++) {
               schedule2D[i] = new Array();

@@ -94,7 +94,7 @@ export function CalenderDisplay(props: Props) {
           </Stack>
 
           {/* 結果表示部 */}
-          <Container className="container">
+          <Container className="container" disableGutters sx={{p:0, m:0}}>
             {scheduleCells}
           </Container>
         </Stack>
